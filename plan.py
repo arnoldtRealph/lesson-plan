@@ -1,74 +1,88 @@
 import streamlit as st
 import docx
 import os
-from streamlit_lottie import st_lottie
-import requests
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.shared import Pt
+from docx.oxml.ns import qn
 
-def load_lottieurl(url):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
-st.set_page_config(page_title= "LESBEPLANNING")
-lottie_sd = load_lottieurl("https://assets3.lottiefiles.com/packages/lf20_ljx86sv6.json")
+# Set up the document style
+document = docx.Document()
+document.styles['Normal'].font.name = 'Arial'
+document.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), 'Arial')
+document.styles['Normal'].font.size = Pt(12)
+document.styles['Heading 1'].font.bold = True
+document.styles['Heading 1'].font.size = Pt(16)
+document.styles['Heading 2'].font.bold = True
+document.styles['Heading 2'].font.size = Pt(14)
+document.styles['Heading 3'].font.bold = True
+document.styles['Heading 3'].font.size = Pt(12)
+
 st.title("HOЁRSKOOL SAUL DAMON")
+st.header("LESBEPLANNER")
+# Define the grade levels
+grade_levels = ['Grade 9', 'Grade 10', 'Grade 11', 'Grade 12']
 
-def create_document(lesson_title, subject, grade, day, lesson_objective, lesson_plan, conclusion, signature):
-    document = docx.Document()
+# Set up the sidebar
+st.sidebar.title("Lesson Planner")
+selected_grade = st.sidebar.selectbox("Select a Grade Level", grade_levels)
 
-    # Set the document styles
-    style = document.styles['Normal']
-    font = style.font
-    font.name = 'Calibri'
-    font.size = docx.shared.Pt(12)
+# Define the lesson plan inputs
+subject_name = st.text_input("SUBJECT NAME")
+lesson_title = st.text_input("LESSON TITLE")
+lesson_date = st.date_input("LESSON DATE")
+lesson_objective = st.text_input("LESSON OBJECTIVE")
+lesson_activities = st.text_area("LESSON ACTIVITIES")
+lesson_materials = st.text_area("LESSON MATERIALS")
+lesson_homework = st.text_area("HOMEWORK")
+lesson_notes = st.text_area("NOTES")
 
-    # Add the lesson plan header
-    document.add_heading('Lesson Plan', level=1)
-    document.add_paragraph('Subject: ' + subject)
-    document.add_paragraph('Grade: ' + grade)
-    document.add_paragraph('Day: ' + day)
-
-    # Add the lesson objectives
-    document.add_heading('Lesson Objectives', level=2)
+st.write("Designed by Mr. A.R Visagie @ Saul Damon High School")
+# Set up the save button
+if st.button("Save"):
+    # Check if the file already exists
+    file_path = os.path.expanduser(f"~/Desktop/{lesson_title}.docx")
+    while os.path.exists(file_path):
+        st.warning(f"A file with the name '{lesson_title}.docx' already exists on your desktop. Please choose a different name.")
+        lesson_title = st.text_input("Lesson Title")
+        file_path = os.path.expanduser(f"~/Desktop/{lesson_title}.docx")
+        
+    # Add the lesson plan to the document
+    p = document.add_paragraph(selected_grade, style='Heading 1')
+    p = document.add_paragraph()
+    p.add_run(f"Subject: ").bold = True
+    p.add_run(f"{subject_name}").bold = True
+    p = document.add_paragraph(lesson_title, style='Heading 1')
+    
+    # Add the lesson date
+    date_str = lesson_date.strftime('%A, %B %d, %Y')
+    document.add_paragraph(date_str, style='Heading 2')
+    
+    # Add the lesson objective, activities, materials, and homework
+    document.add_heading("Objective", level=2)
     document.add_paragraph(lesson_objective)
-
-    # Add the lesson plan
-    document.add_heading('Lesson Plan', level=2)
-    document.add_paragraph(lesson_plan)
-
-    # Add the conclusion and signature
-    document.add_heading('Conclusion', level=2)
-    document.add_paragraph(conclusion)
-    document.add_paragraph('Teacher Signature: ' + signature)
-
-    return document
-
-def main():
-    st.title("LESBEPLANNING")
-
-    # Get the input from the user
-    lesson_title = st.text_input("Lesson Title")
-    subject = st.text_input("Subject Name")
-    grade = st.selectbox("Grade", ["Grade 9", "Grade 10", "Grade 11", "Grade 12"])
-    day = st.text_input("Day")
-    date = st.text_input("Date")
-    lesson_objective = st.text_area("Lesson Objective")
-    lesson_plan = st.text_area("Lesson Plan")
-    conclusion = st.text_area("Conclusion")
-    signature = st.text_input("Teacher Signature")
-
-    # Create the Word document
-    if st.button("Save Lesson Plan"):
-        filename = lesson_title + ".docx"
-        i = 1
-        while os.path.exists(filename):
-            filename = lesson_title + " (" + str(i) + ")" + ".docx"
-            i += 1
-        document = create_document(lesson_title, subject, grade, day, lesson_objective, lesson_plan, conclusion, signature)
-        document.save(filename)
-        st.success(f"Lesson Plan saved as {filename}.")
-
-st_lottie(lottie_sd, height = 350 , key="coding")
-
-if __name__ == "__main__":
-    main()
+    
+    document.add_heading("Activities", level=2)
+    document.add_paragraph(lesson_activities)
+    
+    document.add_heading("Materials", level=2)
+    document.add_paragraph(lesson_materials)
+    
+    document.add_heading("Homework", level=2)
+    document.add_paragraph(lesson_homework)
+    
+    # Add the notes
+    document.add_heading("Notes", level=2)
+    document.add_paragraph(lesson_notes)
+    
+    # Add the teacher's signature line
+    document.add_paragraph("")
+    document.add_paragraph("")
+    document.add_paragraph("")
+    p = document.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    p.add_run("___________________________").bold = True
+    p.add_run("\nTeacher's Signature").bold = True
+    
+    # Save the document
+    document.save(file_path)
+    st.success("File saved successfully!")
