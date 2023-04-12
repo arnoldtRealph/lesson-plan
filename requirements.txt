@@ -1,4 +1,4 @@
 streamlit==0.87.0
 docx==0.2.4
-streamlit-lottie==0.2.3
+streamlit-lottie==0.0.3
 requests==2.26.0
