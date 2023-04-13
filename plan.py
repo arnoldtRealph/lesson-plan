@@ -20,21 +20,21 @@ document.styles['Heading 3'].font.size = Pt(12)
 st.title("HOЁRSKOOL SAUL DAMON")
 st.header("LESBEPLANNER")
 # Define the grade levels
-grade_levels = ['Grade 9', 'Grade 10', 'Grade 11', 'Grade 12']
+grade_levels = ['GRAAD 9', 'GRAAD 10', 'GRAAD 11', 'GRAAD 12']
 
 # Set up the sidebar
-st.sidebar.title("Lesson Planner")
-selected_grade = st.sidebar.selectbox("Select a Grade Level", grade_levels)
+st.sidebar.title("DAAGLIKE BEPLANNER")
+selected_grade = st.sidebar.selectbox("KIES N GRAAD", grade_levels)
 
 # Define the lesson plan inputs
-subject_name = st.text_input("SUBJECT NAME")
-lesson_title = st.text_input("LESSON TITLE")
-lesson_date = st.date_input("LESSON DATE")
-lesson_objective = st.text_input("LESSON OBJECTIVE")
-lesson_activities = st.text_area("LESSON ACTIVITIES")
-lesson_materials = st.text_area("LESSON MATERIALS")
-lesson_homework = st.text_area("HOMEWORK")
-lesson_notes = st.text_area("NOTES")
+subject_name = st.text_input("VAK")
+lesson_title = st.text_input("LES TITEL")
+lesson_date = st.date_input("LES DATUM")
+lesson_objective = st.text_input("LES DOELWIT")
+lesson_activities = st.text_area("LEERDER AKTIWITEITE")
+lesson_materials = st.text_area("MATERIAAL BENODIG")
+lesson_homework = st.text_area("HUISWERK")
+lesson_notes = st.text_area("NOTAS")
 
 st.write("Designed by Mr. A.R Visagie @ Saul Damon High School")
 # Set up the save button
