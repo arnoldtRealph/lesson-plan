@@ -8,6 +8,7 @@ st.set_page_config(page_title="Lesson Plan Creator", page_icon=":books:")
 
 # Create input fields
 st.title("HOЁRSKOOL SAUL DAMON")
+<<<<<<< HEAD
 st.subheader("LESBEPLANNER")
 st.write("Vul asseblief die volgende velde in om 'n nuwe lesplan te skep:")
 st.write("")
@@ -37,6 +38,49 @@ if st.button("Create Lesson Plan"):
     document.add_paragraph("Lesson Date: " + str(lesson_date))
     document.add_paragraph("")
     document.add_heading("Lesson Objective", level=1)
+=======
+st.header("LESBEPLANNER")
+# Define the grade levels
+grade_levels = ['GRAAD 9', 'GRAAD 10', 'GRAAD 11', 'GRAAD 12']
+
+# Set up the sidebar
+st.sidebar.title("DAAGLIKE BEPLANNER")
+selected_grade = st.sidebar.selectbox("KIES N GRAAD", grade_levels)
+
+# Define the lesson plan inputs
+subject_name = st.text_input("VAK")
+lesson_title = st.text_input("LES TITEL")
+lesson_date = st.date_input("LES DATUM")
+lesson_objective = st.text_input("LES DOELWIT")
+lesson_activities = st.text_area("LEERDER AKTIWITEITE")
+lesson_materials = st.text_area("MATERIAAL BENODIG")
+lesson_homework = st.text_area("HUISWERK")
+lesson_notes = st.text_area("NOTAS")
+
+st.write("Designed by Mr. A.R Visagie @ Saul Damon High School")
+# Set up the save button
+if st.button("Save"):
+    # Check if the file already exists
+    file_path = os.path.expanduser(f"~/Desktop/{lesson_title}.docx")
+    while os.path.exists(file_path):
+        st.warning(f"A file with the name '{lesson_title}.docx' already exists on your desktop. Please choose a different name.")
+        lesson_title = st.text_input("Lesson Title")
+        file_path = os.path.expanduser(f"~/Desktop/{lesson_title}.docx")
+        
+    # Add the lesson plan to the document
+    p = document.add_paragraph(selected_grade, style='Heading 1')
+    p = document.add_paragraph()
+    p.add_run(f"Subject: ").bold = True
+    p.add_run(f"{subject_name}").bold = True
+    p = document.add_paragraph(lesson_title, style='Heading 1')
+    
+    # Add the lesson date
+    date_str = lesson_date.strftime('%A, %B %d, %Y')
+    document.add_paragraph(date_str, style='Heading 2')
+    
+    # Add the lesson objective, activities, materials, and homework
+    document.add_heading("Objective", level=2)
+>>>>>>> a594bd09b9a9a4275a9a4ef2152a34007de208e9
     document.add_paragraph(lesson_objective)
     document.add_heading("Lesson Activities", level=1)
     document.add_paragraph(lesson_activities)
