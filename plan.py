@@ -10,12 +10,12 @@ st.set_page_config(page_title="Lesson Plan Creator", page_icon=":books:")
 # tracking code
 ga_tracking_code = """
 <!-- Google Analytics tracking code -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-D5FYHSVRJ2"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XSRNF7FRSB"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-NWP3ZHLP6T');
+  gtag('config', 'G-XSRNF7FRSB');
 </script>
 """
 
