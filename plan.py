@@ -2,6 +2,7 @@ import streamlit as st
 import os
 import io
 import docx
+from datetime import date
 
 # Set page title and icon
 st.set_page_config(page_title="Lesson Plan Creator", page_icon=":books:")
@@ -14,13 +15,16 @@ st.write("")
 subject = st.text_input("SUBJECT")
 lesson_title = st.text_input("LESSON TITLE")
 grade = st.selectbox("GRADE", ["9", "10", "11", "12"])
-lesson_date = st.date_input("LESSON DATE")
+st.subheader("CHOOSE YOUR START AND END DATE")
+start_date = st.date_input("FROM", value=date.today())
+end_date = st.date_input("TO", value=date.today())
 lesson_objective = st.text_area("LESSON OBJECTIVES")
 lesson_introduction = st.text_area("INTRODUCTION")
 lesson_activities = st.text_area("LESSON ACTIVITIES")
 materials_needed = st.text_area("MATERIAL NEEDED")
 homework = st.text_area("HOMEWORK ACTIVITIES")
 notes = st.text_area("NOTES")
+st.subheader("TEACHER INFORMATION")
 teacher_name = st.text_input("INITIALS")
 teacher_surname = st.text_input("SURNAME")
 st.write("")
