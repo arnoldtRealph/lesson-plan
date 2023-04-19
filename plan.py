@@ -3,6 +3,11 @@ import os
 import io
 import docx
 from datetime import date
+import streamlit_analytics
+
+# streamlit analytics
+streamlit_analytics.start_tracking()
+
 
 # Set page title and icon
 st.set_page_config(page_title="Lesson Plan Creator", page_icon=":books:")
@@ -85,3 +90,6 @@ if st.button("Create Lesson Plan"):
             mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         )
         st.success("Your lesson plan has been created. Click the download button to save the file.")
+
+
+streamlit_analytics.stop_tracking()
