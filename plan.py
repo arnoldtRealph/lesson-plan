@@ -39,9 +39,9 @@ if st.button("Create Lesson Plan"):
     # Create a new Word document
     document = docx.Document()
 
-    # Set a title with custom font and size
-    title = document.add_heading(subject.upper(), level=0)
-    run = title.runs[0]
+    # Add subject as a bold, navy-colored heading
+    title = document.add_heading(level=0)
+    run = title.add_run(subject.upper())  # Add text to the heading
     run.font.size = Pt(16)
     run.font.bold = True
     run.font.color.rgb = RGBColor(0, 0, 128)  # Navy color
